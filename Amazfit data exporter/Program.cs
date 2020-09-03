@@ -43,8 +43,8 @@ namespace Amazfit_data_exporter {
 			var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
 			
 			//extract data from Amazfit
-			var extractor = new Extractor(Directory + "adb.exe");
-			try { 
+			try {
+				var extractor = new Extractor(Directory + "adb.exe");
 				extractor.extract(timeStamp);
 			}
 			catch (Exception e) {
@@ -120,6 +120,8 @@ namespace Amazfit_data_exporter {
 		private readonly MyAdbCommandLineClient _adbCmd;
 
 		public Extractor(string adbPath) {
+			if (!File.Exists(adbPath))
+				throw new Exception("adb.exe not found.");
 			_server.StartServer(adbPath,true);
 			_adbCmd = new MyAdbCommandLineClient(adbPath);
 		}
@@ -144,7 +146,8 @@ namespace Amazfit_data_exporter {
 			sendMessage("Requesting backup on Amazfit...", LogMsg);
 			_adbCmd.runAdbProcess(@"backup -noapk com.huami.watch.newsport -f .\Data\Backup\" + timeStamp + ".ab", null, null);
 			sendMessage("Converting backup to .tar", LogMsg);
-			Convertor.backupToTar(timeStamp);
+			if(Convertor.backupToTar(timeStamp) != 0)
+				throw new Exception("error occurred when converting backup to .tar. Try again...");
 			sendMessage("Extracting tar file", LogMsg);
 			Convertor.extractTar(timeStamp);
 		}
