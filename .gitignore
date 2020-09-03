@@ -3,6 +3,7 @@
 project.lock.json
 project.fragment.lock.json
 
-#Amazfit data exporter/bin
-#Amazfit data exporter/obj
-#packages
+Amazfit data exporter/bin
+Amazfit data exporter/obj
+packages
+Amazfit data exporter.sln.DotSettings.user
