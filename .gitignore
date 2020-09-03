@@ -1,1 +1,8 @@
 .idea
+
+project.lock.json
+project.fragment.lock.json
+
+Amazfit data exporter/bin
+Amazfit data exporter/obj
+packages

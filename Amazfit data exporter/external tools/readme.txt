@@ -1,0 +1,1 @@
+Move this tools next do compiled exe file.
