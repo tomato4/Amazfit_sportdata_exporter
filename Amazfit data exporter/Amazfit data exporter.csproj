@@ -96,6 +96,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Classes\Convertor.cs" />
+        <Compile Include="Classes\Database.cs" />
+        <Compile Include="Classes\Extractor.cs" />
+        <Compile Include="Classes\Messenger.cs" />
+        <Compile Include="Classes\SharpAdbClientExtension.cs" />
+        <Compile Include="Classes\Tools.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
