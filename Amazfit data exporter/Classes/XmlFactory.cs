@@ -134,7 +134,7 @@ namespace Amazfit_data_exporter.Classes {
 					 ".tcx");
 
 
-			sendMessage(startTime.ToString("yyyy_MM_dd HH:mm") + " -" + sportName + "- ");
+			sendMessage(startTime.ToString("yyyy_MM_dd HH:mm") + " -" + sportName + "- ", DefaultMsg, false);
 			if (File.Exists(@".\Exported workouts\Ordered by date\" + startTime.ToString("yyyy_MM_dd HH_mm") + " " +
 							sportName + ".tcx"))
 				sendMessage("Successfully exported", SuccessMsg);

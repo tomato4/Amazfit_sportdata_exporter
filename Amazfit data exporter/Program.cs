@@ -62,6 +62,7 @@ namespace Amazfit_data_exporter {
 			var allWorkouts = db.getAllWorkouts();
 			//show list of all workouts
 			Database.writeWorkouts(allWorkouts);
+			sendNewLine();
 
 			//check if there is unknown workout, that wasn't exported and if so ask if wanna export
 			var answer = false;
