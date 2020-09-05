@@ -38,12 +38,14 @@ namespace Amazfit_data_exporter {
 			}
 			
 			//create timestamp for current export
-			var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+			// var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+			var timeStamp = "20200905210756"; //TODO remove - testing
 			
 			//extract data from Amazfit
 			try {
-				var extractor = new Extractor(Directory + "adb.exe");
-				extractor.extract(timeStamp);
+				// todo remove - testing
+				// var extractor = new Extractor(Directory + "adb.exe");
+				// extractor.extract(timeStamp);
 			}
 			catch (Exception e) {
 				sendMessage("Error: " + e.Message, ErrorMsg);

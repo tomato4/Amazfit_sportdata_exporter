@@ -7,21 +7,59 @@ using static Amazfit_data_exporter.Classes.Tools;
 namespace Amazfit_data_exporter.Classes {
 	public class Database {
 		private SQLiteConnection _db;
-		private const string GetAllWorkoutsCmd = "SELECT * FROM sport_summary WHERE parent_trackid=-1 AND NOT current_status=7 ORDER BY track_id";
+		//private const string GetAllWorkoutsCmd = "SELECT * FROM sport_summary WHERE parent_trackid=-1 AND NOT current_status=7 ORDER BY track_id";
 		
 		public Database(string databasePath) {
 			_db = new SQLiteConnection("Data Source=" + databasePath);
 			_db.Open();
 		}
 
-		public DataTable getAllWorkouts() {
-			var getAllWorkoutsSqlCmd = new SQLiteCommand(GetAllWorkoutsCmd, _db);
-			var workouts = new DataTable();
-			using (var reader = getAllWorkoutsSqlCmd.ExecuteReader()) {
-				workouts.Load(reader);
+		public static string queryBuilder(string tableName, string[] columnSelect = null, string[] conditions = null, string orderBy = null) {
+			//TODO temporary query builder - bad way to create sql command
+			var select = "SELECT ";
+			var where = "";
+			var order = "";
+
+			if (columnSelect != null) {
+				foreach (var column in columnSelect) {
+					select += column + ",";
+				}
+				
+				if (columnSelect.Length > 0) {
+					select = select.Remove(select.Length - 1, 1);
+				}
+			}
+			else {
+				select += "*";
+			}
+			select += " FROM " + tableName;
+
+			if (conditions != null && conditions.Length > 0) {
+				where = " WHERE ";
+				foreach (var cond in conditions) {
+					where += cond + " AND ";
+				}
+				where = where.Remove(where.Length - 5, 5);
 			}
 
-			return workouts;
+			if (orderBy != null) {
+				order = " ORDER BY " + orderBy;
+			}
+
+			return select + where + order;
+		}
+
+		public DataTable executeQuery(string query) {
+			var cmd = new SQLiteCommand(query, _db);
+			var result = new DataTable();
+			using (var reader = cmd.ExecuteReader()) {
+				result.Load(reader);
+			}
+			return result;
+		}
+
+		public DataTable getAllWorkouts() {
+			return executeQuery(queryBuilder("sport_summary", null, new string[2] {"parent_trackid=-1", "NOT current_status=7"}, "track_id"));
 		}
 
 		public static void writeWorkouts(DataTable workouts) {
