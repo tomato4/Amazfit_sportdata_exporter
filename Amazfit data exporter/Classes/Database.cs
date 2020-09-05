@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using static Amazfit_data_exporter.Classes.Messenger;
@@ -27,12 +25,14 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		public static void writeWorkouts(DataTable workouts) {
+			//show list of all workouts
 			foreach (DataRow row in workouts.Rows) {
 				writeWorkout(row);
 			}
 		}
 
 		private static void writeWorkout(DataRow workout) {
+			//show given workout
 			var startTime = dateConvertor((long)workout["start_time"]);
 			var startTimeString = startTime.ToString("yyyy_MM_dd HH:mm");
 			var sportNumber = (long)workout["type"];

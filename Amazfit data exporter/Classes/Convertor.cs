@@ -4,10 +4,16 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Tar;
 
 namespace Amazfit_data_exporter.Classes {
-	public static class Convertor {
-		public static int backupToTar(string timeStamp) {
+	public class Convertor {
+		private string _timeStamp;
+		
+		public Convertor(string timeStamp) {
+			_timeStamp = timeStamp;
+		}
+
+		public void backupToTar() {
 			var psi = new ProcessStartInfo("java",
-				@"-jar abe.jar unpack .\Data\backup\" + timeStamp + ".ab " + @".\Data\temp\" + timeStamp + ".tar") {
+				@"-jar abe.jar unpack .\Data\backup\" + _timeStamp + ".ab " + @".\Data\temp\" + _timeStamp + ".tar") {
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				UseShellExecute = false,
@@ -22,14 +28,15 @@ namespace Amazfit_data_exporter.Classes {
 				process.Kill();
 			}
 
-			return process.ExitCode;
+			if (process.ExitCode != 0)
+				throw new Exception("error occurred when converting backup to .tar. Try again...");
 		}
 
-		public static void extractTar(string timeStamp) {
-			extractTar(@".\Data\temp\" + timeStamp + ".tar", @".\Data\temp\" + timeStamp + @"\");
+		public void extractTar() {
+			extractTar(@".\Data\temp\" + _timeStamp + ".tar", @".\Data\temp\" + _timeStamp + @"\");
 			
 			//check existence of DB file
-			var dbFilePath = @".\Data\temp\" + timeStamp + @"\apps\com.huami.watch.newsport\db\sport_data.db";
+			var dbFilePath = @".\Data\temp\" + _timeStamp + @"\apps\com.huami.watch.newsport\db\sport_data.db";
 			if (!File.Exists(dbFilePath))
 				throw new Exception("Database file not found. Probably error of data export. Try again...");
 		}

@@ -12,9 +12,12 @@ namespace Amazfit_data_exporter.Classes {
 		private readonly MyAdbCommandLineClient _adbCmd;
 
 		public Extractor(string adbPath) {
+			//if couldn't resolve adb path throw error
 			if (!File.Exists(adbPath))
 				throw new Exception("adb.exe not found.");
+			//start adb daemon
 			_server.StartServer(adbPath,true);
+			//command line client for adb
 			_adbCmd = new MyAdbCommandLineClient(adbPath);
 		}
 
@@ -24,6 +27,7 @@ namespace Amazfit_data_exporter.Classes {
 			if (devices.Count == 0)
 				throw new Exception("ADB error: no device detected. Please connect device and start program again.");
 			if (devices.Count > 1) {
+				//show all connected devices
 				sendMessage("ADB warning: more than 1 device detected. This could potentially cause problems. If export will be unsuccessful, please disconnect all devices but Amazfit.", WarningMsg);
 				sendNewLine();
 				sendMessage("List of connected devices:", WarningMsg);
@@ -35,13 +39,15 @@ namespace Amazfit_data_exporter.Classes {
 			}
 			
 			//get backup of apk, that holds database
-			sendMessage("Requesting backup on Amazfit...", LogMsg);
+			sendMessage("Sending request for backup on Amazfit...", LogMsg);
 			_adbCmd.runAdbProcess(@"backup -noapk com.huami.watch.newsport -f .\Data\Backup\" + timeStamp + ".ab", null, null);
+			//convert backup to .tar
 			sendMessage("Converting backup to .tar", LogMsg);
-			if(Convertor.backupToTar(timeStamp) != 0)
-				throw new Exception("error occurred when converting backup to .tar. Try again...");
+			var conv = new Convertor(timeStamp);
+			conv.backupToTar();
+			//extract tar to folder
 			sendMessage("Extracting tar file", LogMsg);
-			Convertor.extractTar(timeStamp);
+			conv.extractTar();
 		}
 	}
 }

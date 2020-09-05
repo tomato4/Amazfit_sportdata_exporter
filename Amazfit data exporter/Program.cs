@@ -3,7 +3,6 @@ using System.IO;
 
 using Amazfit_data_exporter.Classes;
 using static Amazfit_data_exporter.Classes.Messenger;
-using static Amazfit_data_exporter.Classes.Tools;
 
 namespace Amazfit_data_exporter {
 	internal static class Program {
@@ -16,6 +15,8 @@ namespace Amazfit_data_exporter {
 			sendMessage("For support or suggestions contact me on Reddit\nReddit: https://www.reddit.com/user/Tomato4444/\nReddit message: https://www.reddit.com/message/compose/?to=Tomato4444\n\n" +
 			"Connect your Amazfit into you PC. Make sure your drivers for your watch are installed properly. After confirmation program starts with getting data from your watch. You will need to agree with notification popped up on your watch. This process could take some while (up to minute).\n"
 			);
+			//TODO change contact method
+			//TODO update check
 			
 			//ask if user wants to continue
 			ConsoleKey response;
@@ -29,7 +30,7 @@ namespace Amazfit_data_exporter {
 				abort(false);
 			
 			//check folder structure
-			checkFolders();
+			Tools.checkFolders();
 			//delete previous workouts
 			var lastExportFolder = new DirectoryInfo(@".\Exported workouts\Last export\");
 			foreach (var file in lastExportFolder.GetFiles()) {
@@ -53,11 +54,14 @@ namespace Amazfit_data_exporter {
 			
 			sendMessage("List of workouts in database:", InfoMsg);
 			var db = new Database(@".\Data\temp\" + timeStamp + @"\apps\com.huami.watch.newsport\db\sport_data.db");
-			Database.writeWorkouts(db.getAllWorkouts());
+			var allWorkouts = db.getAllWorkouts();
+			//show list of all workouts
+			Database.writeWorkouts(allWorkouts);
 			
 			abort();
 		}
 
+		//exit program
 		private static void abort(bool stop = true) {
 			if (stop) {
 				Console.WriteLine("\nPress enter to terminate job...");

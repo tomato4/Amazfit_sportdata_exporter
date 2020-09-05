@@ -8,7 +8,7 @@ namespace Amazfit_data_exporter.Classes {
 
 		public static DateTime dateConvertor(long dateFromDb) {
 			dateFromDb /= 1000; //to seconds
-			var date = new DateTime(1970, 1, 1, 0, 0, 0);
+			var date = new DateTime(1970, 1, 1, 0, 0, 0); //Unix timestamp of start (value 0)
 			date = date.AddSeconds(dateFromDb);
 			return date;
 		}
