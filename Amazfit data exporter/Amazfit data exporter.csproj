@@ -94,6 +94,7 @@
         </Reference>
         <Reference Include="System.Net" />
         <Reference Include="System.Xml" />
+        <Reference Include="System.Xml.Linq" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Classes\Convertor.cs" />
@@ -102,6 +103,7 @@
         <Compile Include="Classes\Messenger.cs" />
         <Compile Include="Classes\SharpAdbClientExtension.cs" />
         <Compile Include="Classes\Tools.cs" />
+        <Compile Include="Classes\XmlFactory.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>

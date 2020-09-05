@@ -25,7 +25,7 @@ namespace Amazfit_data_exporter {
 				sendMessage("Do you want to continue? [y/n]", InfoMsg);
 				response = Console.ReadKey(true).Key;
 				if (response != ConsoleKey.Enter)
-					Console.WriteLine();
+					sendNewLine();
 			} while (response != ConsoleKey.Y && response != ConsoleKey.N);
 
 			if (response == ConsoleKey.N)
@@ -72,16 +72,30 @@ namespace Amazfit_data_exporter {
 					sendMessage("Do you want to export unknown file? [y/n]", InfoMsg);
 					response2 = Console.ReadKey(true).Key;
 					if (response2 != ConsoleKey.Enter)
-						Console.WriteLine();
+						sendNewLine();
 				} while (response2 != ConsoleKey.Y && response2 != ConsoleKey.N);
 
 				answer = response2 == ConsoleKey.Y;
+			}
+			else {
+				ConsoleKey response2;
+				do {
+					sendMessage("Do you want to continue to export? [y/n]", InfoMsg);
+					response2 = Console.ReadKey(true).Key;
+					if (response2 != ConsoleKey.Enter)
+						sendNewLine();
+				} while (response2 != ConsoleKey.Y && response2 != ConsoleKey.N);
+
+				if (response2 == ConsoleKey.N)
+					abort(false);
 			}
 
 			//get all workouts IDs and export them
 			var workoutsToExport = db.getListOfExportableWorkouts(answer);
 			foreach (var workoutId in workoutsToExport) {
 				var details = db.getWorkoutDetails(workoutId);
+				var xmlFactory = new XmlFactory();
+				xmlFactory.createXmlFile(db.getSummaryInfoByTrackId(workoutId), details);
 			}
 			
 			abort();
@@ -93,7 +107,10 @@ namespace Amazfit_data_exporter {
 				Console.WriteLine("\nPress enter to terminate job...");
 				Console.ReadLine();
 			}
-
+			var temp = new DirectoryInfo(@".\Data\temp\");
+			foreach (var file in temp.GetFiles()) {
+				file.Delete();
+			}
 			Environment.Exit(0);
 		}
 	}

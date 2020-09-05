@@ -74,6 +74,10 @@ namespace Amazfit_data_exporter.Classes {
 											 new[] {"track_id=" + workoutId, "NOT rate=0.0"}, "run_time"));
 		}
 
+		public DataRow getSummaryInfoByTrackId(long workoutId) {
+			return executeQuery(queryBuilder("sport_summary", null, new[] {"track_id=" + workoutId}, null)).Select()[0];
+		}
+
 		public List<long> getListOfExportableWorkouts(bool exportUnknown = false) {
 			var allWorkouts = executeQuery(queryBuilder("sport_summary", null,
 														new[] {"parent_trackid=-1", "NOT current_status=7"},
