@@ -14,7 +14,7 @@ namespace Amazfit_data_exporter.Classes {
 			Console.ForegroundColor = msgType;
 			if (newLine)
 				Console.WriteLine(msg);
-			else 
+			else
 				Console.Write(msg);
 			Console.ResetColor();
 		}
