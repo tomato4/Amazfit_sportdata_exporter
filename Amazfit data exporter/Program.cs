@@ -9,9 +9,9 @@ namespace Amazfit_data_exporter {
 
 		// ReSharper disable once InconsistentNaming
 		public static void Main() {
-			sendMessage("Amazfit watch nonGPS sport data exporter by Tomato4444; Version: " + Version + "\n",
-						SuccessMsg);
-
+			sendMessage("Amazfit watch nonGPS sport data exporter by Tomáš Glázr\nVersion: " + Version, SuccessMsg);
+			sendNewLine();
+			
 			//check for updates
 			var originVersion = "";
 			try {
@@ -89,7 +89,8 @@ namespace Amazfit_data_exporter {
 			//check if there is unknown workout, that wasn't exported and if so ask if wanna export
 			var answer = false;
 			if (db.isThereUnknownSport(allWorkouts)) {
-				sendMessage("There is unknown workout, that wasn't exported. Do you want to export these workouts too?", InfoMsg);
+				sendMessage("There is unknown workout, that wasn't exported. Do you want to export these workouts too?",
+							InfoMsg);
 				sendMessage("(note: this might potentially cause export fail)");
 				sendNewLine();
 				ConsoleKey response2;

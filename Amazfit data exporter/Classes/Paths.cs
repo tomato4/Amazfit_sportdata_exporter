@@ -78,7 +78,10 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		private static string cleanPathFromBackFolder(string path) {
-			return Regex.Replace(path, @"(\w| )+\\\.\.\\", "");
+			var result = Regex.Replace(path, @"(\w| )+\\\.\.\\", "");
+			if (Regex.IsMatch(result, @"(\w| )+\\\.\.\\"))
+				result = cleanPathFromBackFolder(result);
+			return result;
 		}
 	}
 }
