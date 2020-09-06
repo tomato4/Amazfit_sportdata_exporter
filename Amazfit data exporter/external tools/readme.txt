@@ -1,1 +1,1 @@
-Move this tools next do compiled exe file.
+Move this tools next to compiled exe file.
