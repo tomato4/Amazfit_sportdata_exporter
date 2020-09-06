@@ -15,7 +15,7 @@ namespace Amazfit_data_exporter {
 			//check for updates
 			var originVersion = "";
 			try {
-				originVersion = Tools.checkVersion(Version);
+				originVersion = Tools.checkVersion();
 			}
 			catch (Exception e) {
 				sendMessage("Unable to check updates for this app.", WarningMsg);

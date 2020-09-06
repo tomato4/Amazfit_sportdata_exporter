@@ -8,10 +8,10 @@ namespace Amazfit_data_exporter.Classes {
 	public static class Tools {
 		private static readonly List<long> SportsWithoutGps = new List<long>(new long[] {8, 10, 12, 14, 17, 21});
 
-		public static string checkVersion(string currentVersion) {
+		public static string checkVersion() {
 			var cachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 			var req = WebRequest.Create(
-				"https://raw.githubusercontent.com/tomato4/Amazfit_sportdata_exporter/master/version.txt");
+				"https://raw.githubusercontent.com/tomato4/Amazfit_sportdata_exporter/master/version");
 			req.CachePolicy = cachePolicy;
 			var version = new StreamReader(req.GetResponse().GetResponseStream()).ReadLine();
 			return version;
