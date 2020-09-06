@@ -126,17 +126,14 @@ namespace Amazfit_data_exporter.Classes {
 		private static void saveXDoc(XDocument doc, string sportName, DateTime startTime) {
 			if (sportName == "" || sportName == "Other")
 				sportName = "Unknown";
-			doc.Save(@".\Exported workouts\Ordered by date\" + startTime.ToString("yyyy_MM_dd HH_mm") + " " +
-					 sportName + ".tcx");
-			doc.Save(@".\Exported workouts\Ordered by sport\" + sportName + @"\" +
-					 startTime.ToString("yyyy_MM_dd HH_mm") + ".tcx");
-			doc.Save(@".\Exported workouts\Last export\" + startTime.ToString("yyyy_MM_dd HH_mm") + " " + sportName +
-					 ".tcx");
+			var startTimeString = startTime.ToString("yyyy_MM_dd HH_mm");
+			doc.Save(Paths.workoutDateFolderFilePath(sportName, startTimeString));
+			doc.Save(Paths.workoutSportNameFolderFilePath(sportName, startTimeString));
+			doc.Save(Paths.workoutLastExportFolderFilePath(sportName, startTimeString));
 
 
-			sendMessage(startTime.ToString("yyyy_MM_dd HH:mm") + " -" + sportName + "- ", DefaultMsg, false);
-			if (File.Exists(@".\Exported workouts\Ordered by date\" + startTime.ToString("yyyy_MM_dd HH_mm") + " " +
-							sportName + ".tcx"))
+			sendMessage(startTimeString + " -" + sportName + "- ", DefaultMsg, false);
+			if (File.Exists(Paths.workoutDateFolderFilePath(sportName, startTimeString)))
 				sendMessage("Successfully exported", SuccessMsg);
 			else
 				sendMessage("Error - file is not exported!", ErrorMsg);

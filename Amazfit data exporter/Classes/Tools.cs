@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Cache;
+using static Amazfit_data_exporter.Classes.Paths;
 
 namespace Amazfit_data_exporter.Classes {
 	public static class Tools {
@@ -10,8 +11,7 @@ namespace Amazfit_data_exporter.Classes {
 
 		public static string checkVersion() {
 			var cachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-			var req = WebRequest.Create(
-				"https://raw.githubusercontent.com/tomato4/Amazfit_sportdata_exporter/master/version");
+			var req = WebRequest.Create(VersionUrl);
 			req.CachePolicy = cachePolicy;
 			var version = new StreamReader(req.GetResponse().GetResponseStream()).ReadLine();
 			return version;
@@ -86,23 +86,23 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		public static void checkFolders() {
-			Directory.CreateDirectory(@".\Exported workouts\Last export\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by date\");
+			Directory.CreateDirectory(LastExportFolder);
+			Directory.CreateDirectory(WorkoutsByDateFolder);
 
-			Directory.CreateDirectory(@".\Data\backup\");
-			Directory.CreateDirectory(@".\Data\temp\");
-
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Indoor cycling\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Indoor swimming\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Outdoor cycling\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Outdoor swimming\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Rope\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Running\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Tennis\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Trail run\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Treadmill\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Walking\");
-			Directory.CreateDirectory(@".\Exported workouts\Ordered by sport\Unknown\");
+			Directory.CreateDirectory(BackupFolder);
+			Directory.CreateDirectory(TempFolder);
+			
+			Directory.CreateDirectory(workoutSportNameFolder(@"Indoor cycling"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Indoor swimming"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Outdoor cycling"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Outdoor swimming"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Rope"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Running"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Tennis"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Trail run"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Treadmill"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Walking"));
+			Directory.CreateDirectory(workoutSportNameFolder(@"Unknown"));
 		}
 	}
 }

@@ -102,6 +102,7 @@
         <Compile Include="Classes\Database.cs" />
         <Compile Include="Classes\Extractor.cs" />
         <Compile Include="Classes\Messenger.cs" />
+        <Compile Include="Classes\Paths.cs" />
         <Compile Include="Classes\SharpAdbClientExtension.cs" />
         <Compile Include="Classes\Tools.cs" />
         <Compile Include="Classes\XmlFactory.cs" />

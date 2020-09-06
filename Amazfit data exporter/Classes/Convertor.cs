@@ -13,8 +13,8 @@ namespace Amazfit_data_exporter.Classes {
 
 		public void backupToTar() {
 			var psi = new ProcessStartInfo("java",
-										   @"-jar abe.jar unpack .\Data\backup\" + _timeStamp + ".ab " +
-										   @".\Data\temp\" + _timeStamp + ".tar") {
+										   @"-jar abe.jar unpack " + Paths.backupFilePath(_timeStamp) + " " +
+										   Paths.tarFilePath(_timeStamp)) {
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				UseShellExecute = false,
@@ -34,10 +34,10 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		public void extractTar() {
-			extractTar(@".\Data\temp\" + _timeStamp + ".tar", @".\Data\temp\" + _timeStamp + @"\");
+			extractTar(Paths.tarFilePath(_timeStamp), Paths.extractedTarFolder(_timeStamp));
 
 			//check existence of DB file
-			var dbFilePath = @".\Data\temp\" + _timeStamp + @"\apps\com.huami.watch.newsport\db\sport_data.db";
+			var dbFilePath = Paths.databaseFilePath(_timeStamp);
 			if (!File.Exists(dbFilePath))
 				throw new Exception("Database file not found. Probably error of data export. Try again...");
 		}

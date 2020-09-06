@@ -38,7 +38,6 @@ namespace Amazfit_data_exporter {
 				"Connect your Amazfit into you PC. Make sure your drivers for your watch are installed properly. After confirmation program starts with getting data from your watch. You will need to agree with notification popped up on your watch. This process could take some while (up to minute).\n"
 			);
 			//TODO change contact method
-			//TODO update check
 
 			//ask if user wants to continue
 			ConsoleKey response;
@@ -55,21 +54,21 @@ namespace Amazfit_data_exporter {
 			//check folder structure
 			Tools.checkFolders();
 			//delete previous workouts
-			var lastExportFolder = new DirectoryInfo(@".\Exported workouts\Last export\");
+			var lastExportFolder = new DirectoryInfo(Paths.LastExportFolder);
 			foreach (var file in lastExportFolder.GetFiles()) {
 				file.Delete();
 			}
 
 			//clear temp
-			Directory.Delete(@".\Data\temp", true);
-			Directory.CreateDirectory(@".\Data\temp");
+			Directory.Delete(Paths.TempFolder, true);
+			Directory.CreateDirectory(Paths.TempFolder);
 
 			//create timestamp for current export
 			var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
 
 			//extract data from Amazfit
 			try {
-				var extractor = new Extractor(Directory.GetCurrentDirectory() + @"\adb.exe");
+				var extractor = new Extractor(Paths.AdbPath);
 				extractor.extract(timeStamp);
 			}
 			catch (Exception e) {
@@ -81,7 +80,7 @@ namespace Amazfit_data_exporter {
 			sendNewLine();
 
 			sendMessage("List of workouts in database:", InfoMsg);
-			var db = new Database(@".\Data\temp\" + timeStamp + @"\apps\com.huami.watch.newsport\db\sport_data.db");
+			var db = new Database(Paths.databaseFilePath(timeStamp));
 			var allWorkouts = db.getAllWorkouts();
 			//show list of all workouts
 			Database.writeWorkouts(allWorkouts);
