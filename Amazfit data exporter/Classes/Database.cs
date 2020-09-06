@@ -84,7 +84,7 @@ namespace Amazfit_data_exporter.Classes {
 														"track_id"));
 
 			return (from DataRow workout in allWorkouts.Rows
-					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH:mm")
+					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH_mm")
 					let sportNumber = (long) workout["type"]
 					let name = sportName(sportNumber)
 					where (sportName(sportNumber) != "" || exportUnknown) &&
@@ -98,7 +98,7 @@ namespace Amazfit_data_exporter.Classes {
 				allWorkouts = getAllWorkouts();
 
 			return (from DataRow workout in allWorkouts.Rows
-					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH:mm")
+					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH_mm")
 					where sportName((long) workout["type"]) == "" &&
 						  !File.Exists(@".\Exported workouts\Ordered by date\" + startTime + " " + "Unknown.tcx")
 					select workout).Any();
@@ -114,7 +114,7 @@ namespace Amazfit_data_exporter.Classes {
 		private static void writeWorkout(DataRow workout) {
 			//show given workout
 			var startTime = dateConvertor((long) workout["start_time"]);
-			var startTimeString = startTime.ToString("yyyy_MM_dd HH:mm");
+			var startTimeString = startTime.ToString("yyyy_MM_dd HH_mm");
 			var sportNumber = (long) workout["type"];
 			var name = sportName(sportNumber);
 

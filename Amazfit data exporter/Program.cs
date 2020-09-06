@@ -6,7 +6,6 @@ using static Amazfit_data_exporter.Classes.Messenger;
 namespace Amazfit_data_exporter {
 	internal static class Program {
 		private const string Version = "2.0";
-		private static readonly string Directory = System.IO.Directory.GetCurrentDirectory() + @"\";
 
 		// ReSharper disable once InconsistentNaming
 		public static void Main() {
@@ -38,16 +37,17 @@ namespace Amazfit_data_exporter {
 			foreach (var file in lastExportFolder.GetFiles()) {
 				file.Delete();
 			}
+			//clear temp
+			Directory.Delete(@".\Data\temp", true);
+			Directory.CreateDirectory(@".\Data\temp");
 
 			//create timestamp for current export
-			// var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-			var timeStamp = "20200905210756"; //TODO remove - testing
+			var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
 
 			//extract data from Amazfit
 			try {
-				// todo remove - testing
-				// var extractor = new Extractor(Directory + "adb.exe");
-				// extractor.extract(timeStamp);
+				var extractor = new Extractor(Directory.GetCurrentDirectory() + @"\adb.exe");
+				extractor.extract(timeStamp);
 			}
 			catch (Exception e) {
 				sendMessage("Error: " + e.Message, ErrorMsg);
@@ -67,7 +67,8 @@ namespace Amazfit_data_exporter {
 			//check if there is unknown workout, that wasn't exported and if so ask if wanna export
 			var answer = false;
 			if (db.isThereUnknownSport(allWorkouts)) {
-				sendMessage("There is unknown workout, that wasn't exported. Do you want to export these workouts too? (note: this might potentially cause export fail)");
+				sendMessage(
+					"There is unknown workout, that wasn't exported. Do you want to export these workouts too? (note: this might potentially cause export fail)");
 				ConsoleKey response2;
 				do {
 					sendMessage("Do you want to export unknown file? [y/n]", InfoMsg);
@@ -78,17 +79,17 @@ namespace Amazfit_data_exporter {
 
 				answer = response2 == ConsoleKey.Y;
 			}
-			else {
-				ConsoleKey response2;
-				do {
-					sendMessage("Do you want to continue to export? [y/n]", InfoMsg);
-					response2 = Console.ReadKey(true).Key;
-					if (response2 != ConsoleKey.Enter)
-						sendNewLine();
-				} while (response2 != ConsoleKey.Y && response2 != ConsoleKey.N);
 
-				if (response2 == ConsoleKey.N)
-					abort(false);
+			ConsoleKey response3;
+			do {
+				sendMessage("Do you want to continue to export? [y/n]", InfoMsg);
+				response3 = Console.ReadKey(true).Key;
+				if (response3 != ConsoleKey.Enter)
+					sendNewLine();
+			} while (response3 != ConsoleKey.Y && response3 != ConsoleKey.N);
+
+			if (response3 == ConsoleKey.N) {
+				abort(false);
 			}
 
 			//get all workouts IDs and export them
@@ -98,7 +99,7 @@ namespace Amazfit_data_exporter {
 				var xmlFactory = new XmlFactory();
 				xmlFactory.createXmlFile(db.getSummaryInfoByTrackId(workoutId), details);
 			}
-			
+
 			abort();
 		}
 
@@ -108,10 +109,7 @@ namespace Amazfit_data_exporter {
 				Console.WriteLine("\nPress enter to terminate job...");
 				Console.ReadLine();
 			}
-			var temp = new DirectoryInfo(@".\Data\temp\");
-			foreach (var file in temp.GetFiles()) {
-				file.Delete();
-			}
+
 			Environment.Exit(0);
 		}
 	}
