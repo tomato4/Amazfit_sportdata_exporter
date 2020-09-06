@@ -87,9 +87,10 @@ namespace Amazfit_data_exporter.Classes {
 					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH_mm")
 					let sportNumber = (long) workout["type"]
 					let name = sportName(sportNumber)
-					where (sportName(sportNumber) != "" || exportUnknown) &&
-						  !File.Exists(@".\Exported workouts\Ordered by date\" + startTime + " " + name + ".tcx") &&
-						  name != "Multisport" && name != "Triathlon" && sportWithoutGps(sportNumber)
+					where !File.Exists(@".\Exported workouts\Ordered by date\" + startTime + " " +
+									   (name == "" ? "Unknown" : name) + ".tcx") &&
+						  ((name == "" && exportUnknown) ||
+						   (name != "Multisport" && name != "Triathlon" && sportWithoutGps(sportNumber)))
 					select (long) workout["track_id"]).ToList();
 		}
 

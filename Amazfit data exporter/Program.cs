@@ -90,8 +90,9 @@ namespace Amazfit_data_exporter {
 			//check if there is unknown workout, that wasn't exported and if so ask if wanna export
 			var answer = false;
 			if (db.isThereUnknownSport(allWorkouts)) {
-				sendMessage(
-					"There is unknown workout, that wasn't exported. Do you want to export these workouts too? (note: this might potentially cause export fail)");
+				sendMessage("There is unknown workout, that wasn't exported. Do you want to export these workouts too?", InfoMsg);
+				sendMessage("(note: this might potentially cause export fail)");
+				sendNewLine();
 				ConsoleKey response2;
 				do {
 					sendMessage("Do you want to export unknown file? [y/n]", InfoMsg);
