@@ -1,0 +1,2 @@
+﻿# Amazfit sport data exporter
+
