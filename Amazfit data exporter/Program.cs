@@ -11,7 +11,7 @@ namespace Amazfit_data_exporter {
 		public static void Main() {
 			sendMessage("Amazfit watch nonGPS sport data exporter by Tomáš Glázr\nVersion: " + Version, SuccessMsg);
 			sendNewLine();
-			
+
 			//check for updates
 			var originVersion = "";
 			try {
@@ -34,10 +34,11 @@ namespace Amazfit_data_exporter {
 			sendNewLine();
 
 			sendMessage(
-				"For support or suggestions contact me on Reddit\nReddit: https://www.reddit.com/user/Tomato4444/\nReddit message: https://www.reddit.com/message/compose/?to=Tomato4444\n\n" +
-				"Connect your Amazfit into you PC. Make sure your drivers for your watch are installed properly. After confirmation program starts with getting data from your watch. You will need to agree with notification popped up on your watch. This process could take some while (up to minute).\n"
-			);
-			//TODO change contact method
+				"For support or suggestions write issue on Github repository of this project\nGithub: https://github.com/tomato4/Amazfit_sportdata_exporter/releases/");
+			sendNewLine();
+			sendMessage(
+				"Connect your Amazfit into you PC. Make sure your drivers for your watch are installed properly. After confirmation program starts with getting data from your watch. You will need to agree with notification popped up on your watch. This process could take some while (up to minute).");
+			sendNewLine();
 
 			//ask if user wants to continue
 			ConsoleKey response;
