@@ -86,23 +86,23 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		public static void checkFolders() {
-			Directory.CreateDirectory(LastExportFolder);
-			Directory.CreateDirectory(WorkoutsByDateFolder);
+			Directory.CreateDirectory(LastExportFolder.cleanPath());
+			Directory.CreateDirectory(WorkoutsByDateFolder.cleanPath());
 
-			Directory.CreateDirectory(BackupFolder);
-			Directory.CreateDirectory(TempFolder);
+			Directory.CreateDirectory(BackupFolder.cleanPath());
+			Directory.CreateDirectory(TempFolder.cleanPath());
 			
-			Directory.CreateDirectory(workoutSportNameFolder(@"Indoor cycling"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Indoor swimming"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Outdoor cycling"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Outdoor swimming"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Rope"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Running"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Tennis"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Trail run"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Treadmill"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Walking"));
-			Directory.CreateDirectory(workoutSportNameFolder(@"Unknown"));
+			Directory.CreateDirectory(workoutSportNameFolder("Indoor cycling").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Indoor swimming").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Outdoor cycling").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Outdoor swimming").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Rope").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Running").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Tennis").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Trail run").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Treadmill").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Walking").cleanPath());
+			Directory.CreateDirectory(workoutSportNameFolder("Unknown").cleanPath());
 		}
 	}
 }

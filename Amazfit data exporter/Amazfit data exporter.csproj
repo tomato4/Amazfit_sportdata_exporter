@@ -100,6 +100,7 @@
     <ItemGroup>
         <Compile Include="Classes\Convertor.cs" />
         <Compile Include="Classes\Database.cs" />
+        <Compile Include="Classes\WrapStyle.cs" />
         <Compile Include="Classes\Extractor.cs" />
         <Compile Include="Classes\Messenger.cs" />
         <Compile Include="Classes\Paths.cs" />

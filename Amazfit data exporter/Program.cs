@@ -54,21 +54,21 @@ namespace Amazfit_data_exporter {
 			//check folder structure
 			Tools.checkFolders();
 			//delete previous workouts
-			var lastExportFolder = new DirectoryInfo(Paths.LastExportFolder);
+			var lastExportFolder = new DirectoryInfo(Paths.LastExportFolder.cleanPath());
 			foreach (var file in lastExportFolder.GetFiles()) {
 				file.Delete();
 			}
 
 			//clear temp
-			Directory.Delete(Paths.TempFolder, true);
-			Directory.CreateDirectory(Paths.TempFolder);
+			Directory.Delete(Paths.TempFolder.cleanPath(), true);
+			Directory.CreateDirectory(Paths.TempFolder.cleanPath());
 
 			//create timestamp for current export
 			var timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss");
 
 			//extract data from Amazfit
 			try {
-				var extractor = new Extractor(Paths.AdbPath);
+				var extractor = new Extractor(Paths.AdbPath.cleanPath());
 				extractor.extract(timeStamp);
 			}
 			catch (Exception e) {
@@ -80,7 +80,7 @@ namespace Amazfit_data_exporter {
 			sendNewLine();
 
 			sendMessage("List of workouts in database:", InfoMsg);
-			var db = new Database(Paths.databaseFilePath(timeStamp));
+			var db = new Database(Paths.databaseFilePath(timeStamp).cleanPath());
 			var allWorkouts = db.getAllWorkouts();
 			//show list of all workouts
 			Database.writeWorkouts(allWorkouts);

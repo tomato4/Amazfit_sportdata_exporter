@@ -43,7 +43,7 @@ namespace Amazfit_data_exporter.Classes {
 
 			//get backup of apk, that holds database
 			sendMessage("Sending request for backup on Amazfit...", LogMsg);
-			_adbCmd.runAdbProcess(@"backup -noapk com.huami.watch.newsport -f " + Paths.backupFilePath(timeStamp), null,
+			_adbCmd.runAdbProcess(@"backup -noapk com.huami.watch.newsport -f " + "\"" + Paths.backupFilePath(timeStamp).cleanPath() + "\"", null,
 								  null);
 			//convert backup to .tar
 			sendMessage("Converting backup to .tar", LogMsg);

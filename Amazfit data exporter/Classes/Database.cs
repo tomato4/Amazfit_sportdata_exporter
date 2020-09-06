@@ -87,7 +87,7 @@ namespace Amazfit_data_exporter.Classes {
 					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH_mm")
 					let sportNumber = (long) workout["type"]
 					let name = sportName(sportNumber)
-					where !File.Exists(Paths.workoutDateFolderFilePath(name, startTime)) &&
+					where !File.Exists(Paths.workoutDateFolderFilePath(name, startTime).cleanPath()) &&
 						  ((name == "" && exportUnknown) ||
 						   (name != "Multisport" && name != "Triathlon" && sportWithoutGps(sportNumber)))
 					select (long) workout["track_id"]).ToList();
@@ -100,7 +100,7 @@ namespace Amazfit_data_exporter.Classes {
 			return (from DataRow workout in allWorkouts.Rows
 					let startTime = dateConvertor((long) workout["start_time"]).ToString("yyyy_MM_dd HH_mm")
 					where sportName((long) workout["type"]) == "" &&
-						  !File.Exists(Paths.workoutDateFolderFilePath("Unknown", startTime))
+						  !File.Exists(Paths.workoutDateFolderFilePath("Unknown", startTime).cleanPath())
 					select workout).Any();
 		}
 
@@ -121,7 +121,7 @@ namespace Amazfit_data_exporter.Classes {
 			sendMessage(startTimeString + " -" + name + "- ", DefaultMsg, false);
 			if (name == "")
 				sendMessage("[Warning: Unknown type of sport]", ErrorMsg);
-			else if (File.Exists(Paths.workoutDateFolderFilePath(name, startTimeString)))
+			else if (File.Exists(Paths.workoutDateFolderFilePath(name, startTimeString).cleanPath()))
 				sendMessage("[Skipping: Already exported]", LowInfoMsg);
 			else if (name == "Multisport" || name == "Triathlon")
 				sendMessage("[Skipping: Triathlon/Multisport is not supported]");

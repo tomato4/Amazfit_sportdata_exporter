@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Amazfit_data_exporter.Classes {
 	public static class Paths {
@@ -59,6 +62,23 @@ namespace Amazfit_data_exporter.Classes {
 		//get tar file path
 		public static string tarFilePath(string timeStamp) {
 			return TempFolder + timeStamp + ".tar";
+		}
+
+		public static string cleanPath(this string path, WrapStyle wrap = WrapStyle.None) {
+			switch (wrap) {
+				case WrapStyle.None:
+					return cleanPathFromBackFolder(path);
+				case WrapStyle.SingleQuotes:
+					return "'" + cleanPathFromBackFolder(path) + "'";
+				case WrapStyle.DoubleQuotes:
+					return "\"" + cleanPathFromBackFolder(path) + "\"";
+				default:
+					throw new ArgumentOutOfRangeException(nameof(wrap), wrap, "wrap style exception");
+			}
+		}
+
+		private static string cleanPathFromBackFolder(string path) {
+			return Regex.Replace(path, @"(\w| )+\\\.\.\\", "");
 		}
 	}
 }

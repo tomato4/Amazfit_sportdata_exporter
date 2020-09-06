@@ -127,13 +127,13 @@ namespace Amazfit_data_exporter.Classes {
 			if (sportName == "" || sportName == "Other")
 				sportName = "Unknown";
 			var startTimeString = startTime.ToString("yyyy_MM_dd HH_mm");
-			doc.Save(Paths.workoutDateFolderFilePath(sportName, startTimeString));
-			doc.Save(Paths.workoutSportNameFolderFilePath(sportName, startTimeString));
-			doc.Save(Paths.workoutLastExportFolderFilePath(sportName, startTimeString));
+			doc.Save(Paths.workoutDateFolderFilePath(sportName, startTimeString).cleanPath());
+			doc.Save(Paths.workoutSportNameFolderFilePath(sportName, startTimeString).cleanPath());
+			doc.Save(Paths.workoutLastExportFolderFilePath(sportName, startTimeString).cleanPath());
 
 
 			sendMessage(startTimeString + " -" + sportName + "- ", DefaultMsg, false);
-			if (File.Exists(Paths.workoutDateFolderFilePath(sportName, startTimeString)))
+			if (File.Exists(Paths.workoutDateFolderFilePath(sportName, startTimeString).cleanPath()))
 				sendMessage("Successfully exported", SuccessMsg);
 			else
 				sendMessage("Error - file is not exported!", ErrorMsg);

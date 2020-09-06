@@ -13,8 +13,8 @@ namespace Amazfit_data_exporter.Classes {
 
 		public void backupToTar() {
 			var psi = new ProcessStartInfo("java",
-										   @"-jar abe.jar unpack " + Paths.backupFilePath(_timeStamp) + " " +
-										   Paths.tarFilePath(_timeStamp)) {
+										   @"-jar abe.jar unpack " + Paths.backupFilePath(_timeStamp).cleanPath(WrapStyle.DoubleQuotes) + " " +
+										   Paths.tarFilePath(_timeStamp).cleanPath(WrapStyle.DoubleQuotes)) {
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				UseShellExecute = false,
@@ -34,10 +34,10 @@ namespace Amazfit_data_exporter.Classes {
 		}
 
 		public void extractTar() {
-			extractTar(Paths.tarFilePath(_timeStamp), Paths.extractedTarFolder(_timeStamp));
+			extractTar(Paths.tarFilePath(_timeStamp).cleanPath(), Paths.extractedTarFolder(_timeStamp).cleanPath());
 
 			//check existence of DB file
-			var dbFilePath = Paths.databaseFilePath(_timeStamp);
+			var dbFilePath = Paths.databaseFilePath(_timeStamp).cleanPath();
 			if (!File.Exists(dbFilePath))
 				throw new Exception("Database file not found. Probably error of data export. Try again...");
 		}
