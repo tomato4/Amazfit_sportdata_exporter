@@ -11,6 +11,28 @@ namespace Amazfit_data_exporter {
 		public static void Main() {
 			sendMessage("Amazfit watch nonGPS sport data exporter by Tomato4444; Version: " + Version + "\n",
 						SuccessMsg);
+
+			//check for updates
+			var originVersion = "";
+			try {
+				originVersion = Tools.checkVersion(Version);
+			}
+			catch (Exception e) {
+				sendMessage("Unable to check updates for this app.", WarningMsg);
+				sendMessage("Error: " + e.Message, LogMsg);
+			}
+
+			if (originVersion != "") {
+				if (Version != originVersion)
+					sendMessage(
+						"New version available (" + originVersion + "). Consider downloading new version from github.",
+						UpdateAvailable);
+				else
+					sendMessage("Your version is up to date.", LogMsg);
+			}
+
+			sendNewLine();
+
 			sendMessage(
 				"For support or suggestions contact me on Reddit\nReddit: https://www.reddit.com/user/Tomato4444/\nReddit message: https://www.reddit.com/message/compose/?to=Tomato4444\n\n" +
 				"Connect your Amazfit into you PC. Make sure your drivers for your watch are installed properly. After confirmation program starts with getting data from your watch. You will need to agree with notification popped up on your watch. This process could take some while (up to minute).\n"
@@ -37,6 +59,7 @@ namespace Amazfit_data_exporter {
 			foreach (var file in lastExportFolder.GetFiles()) {
 				file.Delete();
 			}
+
 			//clear temp
 			Directory.Delete(@".\Data\temp", true);
 			Directory.CreateDirectory(@".\Data\temp");

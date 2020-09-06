@@ -1,11 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Cache;
 
 namespace Amazfit_data_exporter.Classes {
 	public static class Tools {
 		private static readonly List<long> SportsWithoutGps = new List<long>(new long[] {8, 10, 12, 14, 17, 21});
 
+		public static string checkVersion(string currentVersion) {
+			var cachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+			var req = WebRequest.Create(
+				"https://raw.githubusercontent.com/tomato4/Amazfit_sportdata_exporter/master/version.txt");
+			req.CachePolicy = cachePolicy;
+			var version = new StreamReader(req.GetResponse().GetResponseStream()).ReadLine();
+			return version;
+		}
+		
 		public static DateTime dateConvertor(long dateFromDb) {
 			dateFromDb /= 1000; //to seconds
 			var date = new DateTime(1970, 1, 1, 0, 0, 0); //Unix timestamp of start (value 0)
