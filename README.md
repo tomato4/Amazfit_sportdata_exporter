@@ -14,6 +14,7 @@
 ## Future plans
 * I would like to make app be able to directly upload data to eg. Endomondo or another apps (create issue - new feature if you want any other apps implement. I will consider it)
 * Be able to export directly from file (eg. if you have older not exported backups)
+* Export only given workouts
 * maybe make GUI, but this is probably not neccessary
 
 ## How to use this app
