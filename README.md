@@ -1,4 +1,4 @@
-# Amazfit sport data exporter
+# Amazfit sport data exporter (non GPS sport data only)
 
 ## What does this app do
 * Export all workouts data from watch (amount of workouts is limited by watch itself - they automatically rewrite old workouts)
@@ -8,6 +8,8 @@
     2. ordered by date - there are all workouts in one folder ordered by date (you have to order folder by name in explorer)
     3. ordered by sport - there are workouts split into their sport name folder
 * If there is unknown sport (eg. you are using amazfit 3 - there are more sports, than on Amazfit 2 stratos for which I build this app) it asks, whether to export it or not. (Note this could potentialy break program. If so, you can open issue and I will repair it.)
+
+> note: this app only exports workouts, that doesn't contain GPS data (indoor sports). If they do, watch can export them directly.
 
 > note: App cannot export triathlon and multisport. I don't plan to implement this if there is no interest...
 
